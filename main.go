@@ -3,12 +3,17 @@ package main
 
 import (
 	"github.com/rivo/tview"
+        "log"
+        "os"
         "github.com/gdamore/tcell/v2"
 )
 
 func main() {
+// init the app (usefull for closing it lol)
 
-  //to remove later
+    app := tview.NewApplication()
+    
+    //to remove later
     newPrimitive := func(text string) tview.Primitive {
             return tview.NewTextView().
                     SetTextAlign(tview.AlignCenter).
@@ -17,32 +22,49 @@ func main() {
     }
 
 
+// get the venvs
+    menu := tview.NewList()
+    
+    files,err := os.ReadDir("/home/mehdi/.config/lazyvenv/")
+    if err != nil{
+      log.Fatal(err)
+    }
+    //add the items to the list
+    c := 'a'
+    for _,file := range files {
+       menu.AddItem(file.Name(), "",c , func(){
+        print(file.Name())
+      
+       })
+       c++
 
+    }
 
-
-    //add List of venv : 
-    menu := tview.NewList().
-            AddItem("List item 1", "", 'a', nil).
-            AddItem("List item 2", "", 'b', nil).
-            AddItem("List item 3", "", 'c', nil).
-            AddItem("List item 4", "", 'd', nil)
     main := newPrimitive("Main content")
     
 
 
-
     //the input field (to add or remove packages from the selected venv)
     inputField := tview.NewInputField().
+                  SetLabel("add or remove : ").
             SetFieldBackgroundColor(tcell.ColorBlack)
 
+    title := `
+  _
+        | | __ _ _____   ___   _____ _ ____   __
+        | |/ _' |_  / | | \ \ / / _ \ '_ \ \ / /
+       | | (_| |/ /| |_| |\ V /  __/ | | \ V /
+      |_|\__,_/___|\__, | \_/ \___|_| |_|\_/
+|___/
 
+    ` 
 
     //add the inputField to the grid
     grid := tview.NewGrid().
-            SetRows(7, 0, 1).
+            SetRows(10, 0, 1).
             SetColumns(17,-1).
             SetBorders(true).
-            AddItem(newPrimitive("Header"), 0, 0, 1, 2, 0, 0, false).
+            AddItem(newPrimitive(title), 0, 0, 1, 2, 0, 0, false).
             AddItem(inputField, 2, 0, 1, 2, 0, 0, false)
 
 
@@ -55,7 +77,7 @@ func main() {
 
 
     // start the app
-    if err := tview.NewApplication().SetRoot(grid, true).EnableMouse(true).Run(); err != nil {
+    if err := app.SetRoot(grid, true).EnableMouse(true).Run(); err != nil {
             panic(err)
     }
 }
