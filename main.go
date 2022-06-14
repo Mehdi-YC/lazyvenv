@@ -2,9 +2,11 @@
 package main
 
 import (
+        "os/exec"
 	"github.com/rivo/tview"
         "log"
         "os"
+        "fmt"
         "github.com/gdamore/tcell/v2"
 )
 
@@ -21,24 +23,6 @@ func main() {
 
     }
 
-
-// get the venvs
-    menu := tview.NewList()
-    
-    files,err := os.ReadDir("/home/mehdi/.config/lazyvenv/")
-    if err != nil{
-      log.Fatal(err)
-    }
-    //add the items to the list
-    c := 'a'
-    for _,file := range files {
-       menu.AddItem(file.Name(), "",c , func(){
-        print(file.Name())
-      
-       })
-       c++
-
-    }
 
     main := newPrimitive("Main content")
     
@@ -59,6 +43,35 @@ func main() {
 
     ` 
 
+// get the venvs
+    menu := tview.NewList()
+    
+    files,err := os.ReadDir("/home/mehdi/.config/lazyvenv/")
+    if err != nil{
+      log.Fatal(err)
+    }
+
+    //add the items to the list
+    c := 'a'
+    for _,file := range files {
+        menu.AddItem(file.Name(), "",c , func(){
+
+        a,_ := menu.GetItemText(menu.GetCurrentItem())
+        inputField.SetText(a)
+
+
+        out, err := exec.Command("date").Output()
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Printf("The date is %s\n", out)
+        c++
+
+        })       
+      }
+
+  
+
     //add the inputField to the grid
     grid := tview.NewGrid().
             SetRows(10, 0, 1).
@@ -72,7 +85,6 @@ func main() {
     // Layout for screens wider than 100 cells.
     grid.AddItem(menu, 1, 0, 1, 1, 0, 100, false).
          AddItem(main, 1, 1, 1, 1, 3, 90, false)
-
 
 
 
