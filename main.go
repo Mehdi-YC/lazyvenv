@@ -2,11 +2,12 @@
 package main
 
 import (
+        "strings"
         "os/exec"
 	"github.com/rivo/tview"
         "log"
         "os"
-        "fmt"
+        // "fmt"
         "github.com/gdamore/tcell/v2"
 )
 
@@ -24,7 +25,7 @@ func main() {
     }
 
 
-    main := newPrimitive("Main content")
+    main := tview.NewList()
     
 
 
@@ -53,22 +54,27 @@ func main() {
 
     //add the items to the list
     c := 'a'
+    c2 := 'a' 
     for _,file := range files {
         menu.AddItem(file.Name(), "",c , func(){
-
+        c2 = 'a' 
         a,_ := menu.GetItemText(menu.GetCurrentItem())
-        inputField.SetText(a)
+        // inputField.SetText(a)
 
-
-        out, err := exec.Command("date").Output()
+        dirname , err := os.UserHomeDir()
+        out, err := exec.Command(dirname+"/.config/lazyvenv/"+a+"/bin/pip","freeze").Output()
         if err != nil {
             log.Fatal(err)
         }
-        fmt.Printf("The date is %s\n", out)
-        c++
+        main.Clear()
+        for _,pack := range strings.Split(string(out),"\n") {
 
+          main.AddItem(pack, "",c2 ,nil) 
+        }
+          c2++
         })       
-      }
+     c++ 
+   }
 
   
 
@@ -84,7 +90,7 @@ func main() {
     // add the venv list & the the packages list to the menu
     // Layout for screens wider than 100 cells.
     grid.AddItem(menu, 1, 0, 1, 1, 0, 100, false).
-         AddItem(main, 1, 1, 1, 1, 3, 90, false)
+         AddItem(main, 1, 1, 1, 1, 3, 90, true)
 
 
 
