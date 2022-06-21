@@ -31,7 +31,13 @@ func main() {
 
     //the input field (to add or remove packages from the selected venv)
     inputField := tview.NewInputField().
-                  SetLabel("add or remove : ").
+                  SetLabel("add package: ").
+            SetFieldBackgroundColor(tcell.ColorBlack)
+
+
+
+    venvInput := tview.NewInputField().
+                  SetLabel("add venv: ").
             SetFieldBackgroundColor(tcell.ColorBlack)
 
     title := `
@@ -70,13 +76,16 @@ func main() {
         for _,pack := range strings.Split(string(out),"\n") {
 
           main.AddItem(pack, "",c2 ,nil) 
-        }
           c2++
+        }
+
         })       
      c++ 
    }
 
-  
+ 
+
+
 
     //add the inputField to the grid
     grid := tview.NewGrid().
@@ -84,18 +93,40 @@ func main() {
             SetColumns(17,-1).
             SetBorders(true).
             AddItem(newPrimitive(title), 0, 0, 1, 2, 0, 0, false).
-            AddItem(inputField, 2, 0, 1, 2, 0, 0, false)
-
+            AddItem(inputField, 2, 1, 1, 1, 0, 0, false).
+            AddItem(venvInput, 2, 0, 1, 1, 0, 0, false)
 
     // add the venv list & the the packages list to the menu
     // Layout for screens wider than 100 cells.
     grid.AddItem(menu, 1, 0, 1, 1, 0, 100, false).
          AddItem(main, 1, 1, 1, 1, 3, 90, true)
 
+    // Key presses : 
 
+    main.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+      switch event.Rune(){
+      case 'd':
+        print("deleted an item")
+      }
+      return event
+    })
 
+    menu.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+      switch event.Rune(){
+      case 'd':
+        print("deleted a venv")
+
+      case 'c':
+        print("cloning a venv")
+      }
+      return event
+    })
+      
+
+         
     // start the app
     if err := app.SetRoot(grid, true).EnableMouse(true).Run(); err != nil {
             panic(err)
     }
-}
+
+  }
