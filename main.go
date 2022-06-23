@@ -11,44 +11,21 @@ import (
         "github.com/gdamore/tcell/v2"
 )
 
+
 func main() {
 // init the app (usefull for closing it lol)
 
     app := tview.NewApplication()
     
-    //to remove later
-    newPrimitive := func(text string) tview.Primitive {
-            return tview.NewTextView().
-                    SetTextAlign(tview.AlignCenter).
-                    SetText(text)
-
-    }
+    main := tview.NewList()   //the input field (to add or remove packages from the selected venv)
 
 
-    main := tview.NewList()
-    
-
-
-    //the input field (to add or remove packages from the selected venv)
     inputField := tview.NewInputField().
-                  SetLabel("add package: ").
-            SetFieldBackgroundColor(tcell.ColorBlack)
-
+                  SetLabel("add package: ")
 
 
     venvInput := tview.NewInputField().
-                  SetLabel("add venv: ").
-            SetFieldBackgroundColor(tcell.ColorBlack)
-
-    title := `
-  _
-        | | __ _ _____   ___   _____ _ ____   __
-        | |/ _' |_  / | | \ \ / / _ \ '_ \ \ / /
-       | | (_| |/ /| |_| |\ V /  __/ | | \ V /
-      |_|\__,_/___|\__, | \_/ \___|_| |_|\_/
-|___/
-
-    ` 
+                  SetLabel("add venv: ")
 
 // get the venvs
     menu := tview.NewList()
@@ -84,23 +61,27 @@ func main() {
    }
 
  
-
+    main.SetBackgroundColor(tcell.ColorDefault)
+    menu.SetBackgroundColor(tcell.ColorDefault)
+    inputField.SetBackgroundColor(tcell.ColorDefault)
+    venvInput.SetBackgroundColor(tcell.ColorDefault)
 
 
     //add the inputField to the grid
     grid := tview.NewGrid().
-            SetRows(10, 0, 1).
+            SetRows( 0, 1).
             SetColumns(17,-1).
-            SetBorders(true).
-            AddItem(newPrimitive(title), 0, 0, 1, 2, 0, 0, false).
-            AddItem(inputField, 2, 1, 1, 1, 0, 0, false).
-            AddItem(venvInput, 2, 0, 1, 1, 0, 0, false)
+            SetBorders(true). 
+            AddItem(inputField, 1, 1, 1, 1, 0, 0, false).
+            AddItem(venvInput, 1, 0, 1, 1, 0, 0, false)
 
     // add the venv list & the the packages list to the menu
     // Layout for screens wider than 100 cells.
-    grid.AddItem(menu, 1, 0, 1, 1, 0, 100, false).
-         AddItem(main, 1, 1, 1, 1, 3, 90, true)
+    grid.AddItem(menu, 0, 0, 1, 1, 0, 100, false).
+         AddItem(main, 0, 1, 1, 1, 3, 90, true)
 
+
+    grid.SetBackgroundColor(tcell.ColorDefault)
     // Key presses : 
 
     main.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
@@ -126,6 +107,7 @@ func main() {
          
     // start the app
     if err := app.SetRoot(grid, true).EnableMouse(true).Run(); err != nil {
+  
             panic(err)
     }
 
