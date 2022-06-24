@@ -1,17 +1,19 @@
-<p style="text-align:center">
-█░░ █▀▀█ ▀▀█ █░░█ ▀█░█▀ █▀▀ █▀▀▄ ▀█░█▀ 
-█░░ █▄▄█ ▄▀░ █▄▄█ ░█▄█░ █▀▀ █░░█ ░█▄█░ 
-▀▀▀ ▀░░▀ ▀▀▀ ▄▄▄█ ░░▀░░ ▀▀▀ ▀░░▀ ░░▀░░</p>
+
+
+ _                                          
+| |                                         
+| |     __ _ _____   ___   _____ _ ____   __
+| |    / _` |_  / | | \ \ / / _ \ '_ \ \ / /
+| |___| (_| |/ /| |_| |\ V /  __/ | | \ V / 
+\_____/\__,_/___|\__, | \_/ \___|_| |_|\_/  
+                  __/ |                     
+                 |___/                      
+
+
 
 A tui tool that helps you manage your python venv ( venv package is needed)
 
-
-
-
-
-            lazyvenv.png
-          
-
+https://github.com/Mehdi-YC/lazyvenv/blob/main/lazyvenv.png
 
 # TODO :
 - add packages
