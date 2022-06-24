@@ -19,13 +19,20 @@ func main() {
     
     main := tview.NewList()   //the input field (to add or remove packages from the selected venv)
 
-
+    //inputs : 
     inputField := tview.NewInputField().
                   SetLabel("add package: ")
 
 
     venvInput := tview.NewInputField().
                   SetLabel("add venv: ")
+
+
+
+    // // title & helper
+    // title  = tview.TextView("LazyVenv")
+    // helper = tview.TextView("mouse -> select items / C-c -> exit / d -> delete venv/package ")
+
 
 // get the venvs
     menu := tview.NewList()
@@ -61,11 +68,13 @@ func main() {
    }
 
  
-    main.SetBackgroundColor(tcell.ColorDefault)
-    menu.SetBackgroundColor(tcell.ColorDefault)
+    main.SetBackgroundColor(tcell.ColorDefault).SetTitle("packages")
+    menu.SetBackgroundColor(tcell.ColorDefault).SetTitle("venvs")
     inputField.SetBackgroundColor(tcell.ColorDefault)
     venvInput.SetBackgroundColor(tcell.ColorDefault)
 
+    // title.SetBackgroundColor(tcell.ColorDefault)
+    // help.SetBackgroundColor(tcell.ColorDefault)
 
     //add the inputField to the grid
     grid := tview.NewGrid().
