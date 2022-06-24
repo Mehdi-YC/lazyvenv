@@ -9,6 +9,10 @@ A tui tool that helps you manage your python venv ( venv package is needed)
 
 
 
+            lazyvenv.png
+          
+
+
 # TODO :
 - add packages
 - create venvs
