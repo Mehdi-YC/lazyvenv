@@ -1,25 +1,22 @@
 
 
- _                                          
-| |                                         
-| |     __ _ _____   ___   _____ _ ____   __
-| |    / _` |_  / | | \ \ / / _ \ '_ \ \ / /
-| |___| (_| |/ /| |_| |\ V /  __/ | | \ V / 
-\_____/\__,_/___|\__, | \_/ \___|_| |_|\_/  
-                  __/ |                     
-                 |___/                      
+![Lazyvenv](logo.png)         
 
 
 
 A tui tool that helps you manage your python venv ( venv package is needed)
+it installs all venvs in the same directory ($HOME/.config/lazyvenv/)
+and uses the last selected venv for new opened terminals (bash)
 
-https://github.com/Mehdi-YC/lazyvenv/blob/main/lazyvenv.png
+![Lazyvenv ui]([http://url/to/img.png](https://github.com/Mehdi-YC/lazyvenv/blob/main/lazyvenv.png))
 
 # TODO :
 - add packages
 - create venvs
 
 - delete venvs/packages
+
+- auto load for zsh
 
 
 
