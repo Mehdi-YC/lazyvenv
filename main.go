@@ -18,15 +18,31 @@ func main() {
     app := tview.NewApplication()
     
     main := tview.NewList()   //the input field (to add or remove packages from the selected venv)
-
+    menu := tview.NewList()
     //inputs : 
     inputField := tview.NewInputField().
                   SetLabel("add package: ")
-
+  inputField.SetDoneFunc(func(key tcell.Key) {
+          a,_ := menu.GetItemText(menu.GetCurrentItem())
+          dirname , err := os.UserHomeDir()
+          out, err := exec.Command(dirname+"/.config/lazyvenv/"+a+"/bin/pip","install" , inputField.GetText()).Output()
+            if err != nil {
+              log.Fatal(err)
+          }
+          print(out)
+    })
 
     venvInput := tview.NewInputField().
                   SetLabel("add venv: ")
-
+    venvInput.SetDoneFunc(func(key tcell.Key) {
+          a,_ := menu.GetItemText(menu.GetCurrentItem())             
+          dirname , err := os.UserHomeDir()
+          out, err := exec.Command(dirname+"/.config/lazyvenv/"+a+"/bin/pip","freeze").Output()
+            if err != nil {
+              log.Fatal(err)
+          }
+          print(out)
+    })
 
 
     // // title & helper
@@ -35,7 +51,6 @@ func main() {
 
 
 // get the venvs
-    menu := tview.NewList()
     
     files,err := os.ReadDir("/home/mehdi/.config/lazyvenv/")
     if err != nil{
