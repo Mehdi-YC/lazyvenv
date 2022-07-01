@@ -11,52 +11,16 @@ import (
         "github.com/gdamore/tcell/v2"
 )
 
+func redrawmain(main *tview.List ,menu *tview.List ){
 
-func main() {
-// init the app (usefull for closing it lol)
-
-    app := tview.NewApplication()
-    
-    main := tview.NewList()   //the input field (to add or remove packages from the selected venv)
-    menu := tview.NewList()
-    //inputs : 
-    inputField := tview.NewInputField().
-                  SetLabel("add package: ")
-  inputField.SetDoneFunc(func(key tcell.Key) {
-          a,_ := menu.GetItemText(menu.GetCurrentItem())
-          dirname , err := os.UserHomeDir()
-          out, err := exec.Command(dirname+"/.config/lazyvenv/"+a+"/bin/pip","install" , inputField.GetText()).Output()
-            if err != nil {
-              log.Fatal(err)
-          }
-          print(out)
-    })
-
-    venvInput := tview.NewInputField().
-                  SetLabel("add venv: ")
-    venvInput.SetDoneFunc(func(key tcell.Key) {
-          a,_ := menu.GetItemText(menu.GetCurrentItem())             
-          dirname , err := os.UserHomeDir()
-          out, err := exec.Command(dirname+"/.config/lazyvenv/"+a+"/bin/pip","freeze").Output()
-            if err != nil {
-              log.Fatal(err)
-          }
-          print(out)
-    })
-
-
-    // // title & helper
-    // title  = tview.TextView("LazyVenv")
-    // helper = tview.TextView("mouse -> select items / C-c -> exit / d -> delete venv/package ")
-
-
-// get the venvs
+    // get the venvs
+    main.Clear()
+    menu.Clear()
     
     files,err := os.ReadDir("/home/mehdi/.config/lazyvenv/")
     if err != nil{
       log.Fatal(err)
     }
-
     //add the items to the list
     c := 'a'
     c2 := 'a' 
@@ -81,6 +45,54 @@ func main() {
         })       
      c++ 
    }
+
+
+}
+
+
+
+func main() {
+// init the app (usefull for closing it lol)
+
+    app := tview.NewApplication()
+    
+    main := tview.NewList()   //the input field (to add or remove packages from the selected venv)
+    menu := tview.NewList()
+    //inputs : 
+    inputField := tview.NewInputField().
+                  SetLabel("add package: ")
+  inputField.SetDoneFunc(func(key tcell.Key) {
+          a,_ := menu.GetItemText(menu.GetCurrentItem())
+          dirname , err := os.UserHomeDir()
+          _, err = exec.Command(dirname+"/.config/lazyvenv/"+a+"/bin/pip","install" , inputField.GetText()).Output()
+            if err != nil {
+              log.Fatal(err)
+          }
+          // print(out)
+          redrawmain(main,menu)
+    })
+
+    venvInput := tview.NewInputField().
+                  SetLabel("add venv: ")
+    venvInput.SetDoneFunc(func(key tcell.Key) {
+          a := venvInput.GetText()           
+          // dirname , err := os.UserHomeDir()
+          _, err := exec.Command("./venv.sh",a).Output()
+            if err != nil {
+              log.Fatal(err)
+          }
+          redrawmain(main,menu)
+    })
+
+
+    // // title & helper
+    // title  = tview.TextView("LazyVenv")
+    // helper = tview.TextView("mouse -> select items / C-c -> exit / d -> delete venv/package ")
+
+
+
+redrawmain(main,menu)
+
 
  
     main.SetBackgroundColor(tcell.ColorDefault).SetTitle("packages")
